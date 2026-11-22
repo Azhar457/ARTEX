@@ -318,7 +318,7 @@ function LLMProfileRow({
             <ChevronDownIcon className="size-3" />
           </button>
         </PopoverTrigger>
-        <PopoverContent align="start" className="w-64 p-1">
+        <PopoverContent align="start" className="max-h-80 w-64 overflow-y-auto overscroll-contain p-1">
           <p className="text-muted-foreground px-2 py-1 text-[11px] font-medium">{t("Select an LLM profile")}</p>
           {/* default option */}
           <button
