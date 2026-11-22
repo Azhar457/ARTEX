@@ -38,6 +38,8 @@ export function ProviderScanSheet({
   const [models, setModels] = React.useState<string[]>([]);
   const [picked, setPicked] = React.useState<string[]>([]);
   const [query, setQuery] = React.useState("");
+  const [provider, setProvider] = React.useState(""); // model-name prefix filter ("" = every provider)
+  const [freeOnly, setFreeOnly] = React.useState(false);
   const [scanning, setScanning] = React.useState(false);
   const [progress, setProgress] = React.useState<{ done: number; total: number } | null>(null);
 
@@ -47,15 +49,32 @@ export function ProviderScanSheet({
     setModels([]);
     setPicked([]);
     setQuery("");
+    setProvider("");
+    setFreeOnly(false);
     setProgress(null);
   }, [open]);
 
   // Models that already have a profile stay visible but cannot be picked twice.
   const have = React.useMemo(() => new Set(existing.map((p) => p.model)), [existing]);
+  // Gateway model ids are namespaced ("nous/qwen/...", "openrouter/..."): the first
+  // segment is the provider the list is grouped by.
+  const providers = React.useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const m of models) {
+      const i = m.indexOf("/");
+      if (i > 0) counts.set(m.slice(0, i), (counts.get(m.slice(0, i)) ?? 0) + 1);
+    }
+    return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  }, [models]);
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
-    return q ? models.filter((m) => m.toLowerCase().includes(q)) : models;
-  }, [models, query]);
+    return models.filter(
+      (m) =>
+        (!provider || m.startsWith(`${provider}/`)) &&
+        (!freeOnly || /free/i.test(m)) &&
+        (!q || m.toLowerCase().includes(q)),
+    );
+  }, [models, query, provider, freeOnly]);
   const fresh = picked.filter((m) => !have.has(m));
   const creating = progress !== null;
 
@@ -203,10 +222,33 @@ export function ProviderScanSheet({
                 </Button>
               </div>
 
+              <div className="flex items-center gap-2">
+                <Select value={provider || "all"} onValueChange={(v) => setProvider(v === "all" ? "" : v)}>
+                  <SelectTrigger size="sm" className="h-8 min-w-0 flex-1">
+                    <SelectValue placeholder={t("All providers")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{t("All providers ({count})", { count: models.length })}</SelectItem>
+                    {providers.map(([p, n]) => (
+                      <SelectItem key={p} value={p}>
+                        {`${p} (${n})`}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {/* biome-ignore lint/a11y/noLabelWithoutControl: the checkbox component renders its own control inside this label */}
+                <label className="flex shrink-0 cursor-pointer items-center gap-2 text-xs">
+                  <Checkbox checked={freeOnly} onCheckedChange={(on) => setFreeOnly(!!on)} />
+                  {t("Free only")}
+                </label>
+              </div>
+
               <div className="max-h-96 overflow-y-auto overscroll-contain rounded-md border p-2">
                 {filtered.length === 0 ? (
                   <p className="px-2 py-6 text-center text-muted-foreground text-xs">
-                    {t("No model matches “{query}”", { query: query.trim() })}
+                    {query.trim()
+                      ? t("No model matches “{query}”", { query: query.trim() })
+                      : t("No model matches the current filters")}
                   </p>
                 ) : (
                   filtered.map((m) => (

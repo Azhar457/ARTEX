@@ -2722,5 +2722,9 @@
   "Creating {done}/{total}…": "正在创建 {done}/{total}…",
   "Create {count} profiles": "创建 {count} 个配置",
   "Created {count} profiles": "已创建 {count} 个配置",
-  "Created {count} profiles, {failed} failed": "已创建 {count} 个配置，{failed} 个失败"
+  "Created {count} profiles, {failed} failed": "已创建 {count} 个配置，{failed} 个失败",
+  "All providers": "全部提供商",
+  "All providers ({count})": "全部提供商（{count}）",
+  "Free only": "仅免费",
+  "No model matches the current filters": "没有符合当前筛选条件的模型"
 }

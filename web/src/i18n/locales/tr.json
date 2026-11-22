@@ -2722,5 +2722,9 @@
   "Creating {done}/{total}…": "Oluşturuluyor {done}/{total}…",
   "Create {count} profiles": "{count} profil oluştur",
   "Created {count} profiles": "{count} profil oluşturuldu",
-  "Created {count} profiles, {failed} failed": "{count} profil oluşturuldu, {failed} başarısız"
+  "Created {count} profiles, {failed} failed": "{count} profil oluşturuldu, {failed} başarısız",
+  "All providers": "Tüm sağlayıcılar",
+  "All providers ({count})": "Tüm sağlayıcılar ({count})",
+  "Free only": "Yalnızca ücretsiz",
+  "No model matches the current filters": "Geçerli filtrelerle eşleşen model yok"
 }
