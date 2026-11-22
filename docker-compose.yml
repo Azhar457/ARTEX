@@ -79,5 +79,16 @@ services:
       - ./skills:/app/skills
     restart: unless-stopped
 
+  # Local LLM gateway on the host (9router on :20128). Rootless podman reaches the
+  # host only through host.containers.internal, which resolves to a link-local
+  # address; ARTEX's model-list guard refuses link-local even when allow-listed,
+  # so "Scan provider" cannot use it. This forwarder gives the stack a private,
+  # resolvable host:port (nine-router-fwd:20128) that the guard does allow.
+  # Put it in ARTEX_LLM_PRIVATE_ENDPOINTS; it is not published to the host.
+  nine-router-fwd:
+    image: docker.io/alpine/socat:latest
+    command: tcp-listen:20128,fork,reuseaddr tcp:host.containers.internal:20128
+    restart: unless-stopped
+
 volumes:
   pgdata:
