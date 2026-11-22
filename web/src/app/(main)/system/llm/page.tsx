@@ -31,6 +31,7 @@ import { api } from "@/lib/api";
 import type { LLMPoolMember, LLMPoolStatus, LLMProfile, LLMRetryOverride } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
+import { ProviderScanSheet } from "./_components/provider-scan";
 import { ProfileRetryFields, RetryPolicyPanel, ZERO_OVERRIDE } from "./_components/retry";
 import { setVisibleInterval } from "@/lib/polling";
 
@@ -909,6 +910,7 @@ export default function LLMPage() {
   // The drawer's open flag and its content are stored separately: editing stays put on close, otherwise during the closing animation the title would flash
   // from "Edit X" to "New". editing = null means create.
   const [editOpen, setEditOpen] = React.useState(false);
+  const [scanOpen, setScanOpen] = React.useState(false);
   const [editing, setEditing] = React.useState<LLMProfile | null>(null);
   const openEditor = React.useCallback((p: LLMProfile | null) => {
     setEditing(p);
@@ -988,6 +990,9 @@ export default function LLMPage() {
                 {t("On")}
               </Badge>
             )}
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => setScanOpen(true)}>
+            <RefreshCwIcon /> {t("Scan provider")}
           </Button>
           <Button size="sm" variant="outline" onClick={() => openEditor(null)}>
             <PlusIcon /> {t("Create")}
@@ -1111,6 +1116,7 @@ export default function LLMPage() {
       </Tabs>
 
       <ProfileSheet profile={editing} open={editOpen} onOpenChange={setEditOpen} onSaved={() => void load()} />
+      <ProviderScanSheet open={scanOpen} onOpenChange={setScanOpen} existing={profiles} onDone={load} />
       <PoolSheet open={poolOpen} onOpenChange={setPoolOpen} pool={pool} onReload={loadPool} />
     </div>
   );

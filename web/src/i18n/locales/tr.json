@@ -2713,5 +2713,14 @@
   "Traffic capture is off by default. Enable it in System settings after setup if you need provable HTTP findings — captured traffic is required for findings to prove goals.": "Trafik yakalama varsayılan olarak kapalıdır. Kanıtlanabilir HTTP bulguları gerekiyorsa kurulumdan sonra Sistem ayarlarından etkinleştirin — bulguların hedefleri kanıtlaması için yakalanmış trafik gereklidir.",
   "Capture is off · required for provable findings": "Yakalama kapalı · kanıtlanabilir bulgular için gerekli",
   "Traffic capture is off: findings stay recorded, but captured HTTP traffic is required for provable findings.": "Trafik yakalama kapalı: bulgular kaydedilmeye devam eder ancak kanıtlanabilir bulgular için yakalanmış HTTP trafiği gereklidir.",
-  "Enable in settings": "Ayarlardan etkinleştir"
+  "Enable in settings": "Ayarlardan etkinleştir",
+  "Scan provider": "Sağlayıcıyı tara",
+  "Scan a provider once, then create a model profile for every model you tick — instead of adding them one by one.": "Sağlayıcıyı bir kez tarayın, ardından işaretlediğiniz her model için bir model profili oluşturun — tek tek eklemek yerine.",
+  "Scan models": "Modelleri tara",
+  "Scanning…": "Taranıyor…",
+  "already added": "zaten eklendi",
+  "Creating {done}/{total}…": "Oluşturuluyor {done}/{total}…",
+  "Create {count} profiles": "{count} profil oluştur",
+  "Created {count} profiles": "{count} profil oluşturuldu",
+  "Created {count} profiles, {failed} failed": "{count} profil oluşturuldu, {failed} başarısız"
 }
